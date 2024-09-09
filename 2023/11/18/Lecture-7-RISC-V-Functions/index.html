@@ -121,20 +121,16 @@ mjx-container[display="true"] + br {
 <div class="menu-bar-head" id="menu-bar" data-show="false"><ul class="menu-bar-ul"><li class="menu-bar-item"><a href="/categories/calculus/"><span>Calculus</span></a></li><li class="menu-bar-item"><a href="/categories/cs61c/"><span>CS61C</span></a></li><li class="menu-bar-item"><a href="/categories/nihongo/"><span>日本語</span></a></li><li class="menu-bar-item"><a href="/categories/acgn/"><span>ACGN雜談</span></a></li><li class="menu-bar-item"><a href="/categories/tech/"><span>技術隨筆</span></a></li><li class="menu-bar-item"><a href="/categories/algorithm/"><span>算法</span></a></li><li class="menu-bar-item"><a href="/categories/daily/"><span>日常</span></a></li><li class="menu-bar-item"><a href="/categories/kendo/"><span>劍道</span></a></li><li class="menu-bar-item  border"><a href="/archives"><span>归檔</span></a></li><li class="menu-bar-item"><a href="/tags"><span>Tags</span></a></li><li class="menu-bar-item"><a href="/about"><span>關於我</span></a></li></ul></div></div><div class="main"><article class="post" id="post"><header class="post-head"><h1 class="post-title"><a class="title" href="/2023/11/18/Lecture-7-RISC-V-Functions/">Lecture 7 - RISC-V Functions</a></h1></header><div class="post-datetag"><div class="post-date"><time class="post-time" itemprop="datePublished" title="2023-11-18 16:04:25" datetime="2023-11-18T08:04:25.000Z">2023-11-18</time></div>|<div class="post-tag"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cs-lecture/" rel="tag">cs-lecture</a></li></ul></div>|
 <div class="post-visit"><span id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv"></span>访问</span></div></div><div class="article-entry" itemprop="articleBody"><p>Functions in Assembly and Function Calling Conventions and other stuff.</p>
 <span id="more"></span>
-<h1 id="review-of-last-lecture">Review of Last Lecture</h1>
-<h2 id="section">1</h2>
-<ul>
-<li>RISC Design Principles
-<ul>
+<h1 id="Review-of-Last-Lecture"><a href="#Review-of-Last-Lecture" class="headerlink" title="Review of Last Lecture"></a>Review of Last Lecture</h1><h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><ul>
+<li>RISC Design Principles<ul>
 <li>Smaller is faster: 32 registers, fewer instructions</li>
 <li>Keep it simple: rigid syntax</li>
-</ul></li>
-<li>RISC-V Registers: <span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.375ex;" xmlns="http://www.w3.org/2000/svg" width="7.915ex" height="1.375ex" role="img" focusable="false" viewbox="0 -442 3498.2 607.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D460" d="M131 289Q131 321 147 354T203 415T300 442Q362 442 390 415T419 355Q419 323 402 308T364 292Q351 292 340 300T328 326Q328 342 337 354T354 372T367 378Q368 378 368 379Q368 382 361 388T336 399T297 405Q249 405 227 379T204 326Q204 301 223 291T278 274T330 259Q396 230 396 163Q396 135 385 107T352 51T289 7T195 -10Q118 -10 86 19T53 87Q53 126 74 143T118 160Q133 160 146 151T160 120Q160 94 142 76T111 58Q109 57 108 57T107 55Q108 52 115 47T146 34T201 27Q237 27 263 38T301 66T318 97T323 122Q323 150 302 164T254 181T195 196T148 231Q131 256 131 289Z"/></g><g data-mml-node="mn" transform="translate(502,-150) scale(0.707)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"/></g></g><g data-mml-node="mo" transform="translate(1183.3,0)"><path data-c="223C" d="M55 166Q55 241 101 304T222 367Q260 367 296 349T362 304T421 252T484 208T554 189Q616 189 655 236T694 338Q694 350 698 358T708 367Q722 367 722 334Q722 260 677 197T562 134H554Q517 134 481 152T414 196T355 248T292 293T223 311Q179 311 145 286Q109 257 96 218T80 156T69 133Q55 133 55 166Z"/></g><g data-mml-node="msub" transform="translate(2239.1,0)"><g data-mml-node="mi"><path data-c="1D460" d="M131 289Q131 321 147 354T203 415T300 442Q362 442 390 415T419 355Q419 323 402 308T364 292Q351 292 340 300T328 326Q328 342 337 354T354 372T367 378Q368 378 368 379Q368 382 361 388T336 399T297 405Q249 405 227 379T204 326Q204 301 223 291T278 274T330 259Q396 230 396 163Q396 135 385 107T352 51T289 7T195 -10Q118 -10 86 19T53 87Q53 126 74 143T118 160Q133 160 146 151T160 120Q160 94 142 76T111 58Q109 57 108 57T107 55Q108 52 115 47T146 34T201 27Q237 27 263 38T301 66T318 97T323 122Q323 150 302 164T254 181T195 196T148 231Q131 256 131 289Z"/></g><g data-mml-node="TeXAtom" transform="translate(502,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"/><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" transform="translate(500,0)"/></g></g></g></g></g></svg></mjx-container></span>, <span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.375ex;" xmlns="http://www.w3.org/2000/svg" width="6.626ex" height="1.791ex" role="img" focusable="false" viewbox="0 -626 2928.7 791.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"/></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"/></g></g><g data-mml-node="mo" transform="translate(1075.3,0)"><path data-c="223C" d="M55 166Q55 241 101 304T222 367Q260 367 296 349T362 304T421 252T484 208T554 189Q616 189 655 236T694 338Q694 350 698 358T708 367Q722 367 722 334Q722 260 677 197T562 134H554Q517 134 481 152T414 196T355 248T292 293T223 311Q179 311 145 286Q109 257 96 218T80 156T69 133Q55 133 55 166Z"/></g><g data-mml-node="msub" transform="translate(2131.1,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"/></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="36" d="M42 313Q42 476 123 571T303 666Q372 666 402 630T432 550Q432 525 418 510T379 495Q356 495 341 509T326 548Q326 592 373 601Q351 623 311 626Q240 626 194 566Q147 500 147 364L148 360Q153 366 156 373Q197 433 263 433H267Q313 433 348 414Q372 400 396 374T435 317Q456 268 456 210V192Q456 169 451 149Q440 90 387 34T253 -22Q225 -22 199 -14T143 16T92 75T56 172T42 313ZM257 397Q227 397 205 380T171 335T154 278T148 216Q148 133 160 97T198 39Q222 21 251 21Q302 21 329 59Q342 77 347 104T352 209Q352 289 347 316T329 361Q302 397 257 397Z"/></g></g></g></g></svg></mjx-container></span>, <span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.375ex;" xmlns="http://www.w3.org/2000/svg" width="2.282ex" height="1.375ex" role="img" focusable="false" viewbox="0 -442 1008.6 607.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"/></g><g data-mml-node="mn" transform="translate(605,-150) scale(0.707)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"/></g></g></g></g></svg></mjx-container></span></li>
+</ul>
+</li>
+<li>RISC-V Registers: <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.375ex;" xmlns="http://www.w3.org/2000/svg" width="7.915ex" height="1.375ex" role="img" focusable="false" viewbox="0 -442 3498.2 607.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D460" d="M131 289Q131 321 147 354T203 415T300 442Q362 442 390 415T419 355Q419 323 402 308T364 292Q351 292 340 300T328 326Q328 342 337 354T354 372T367 378Q368 378 368 379Q368 382 361 388T336 399T297 405Q249 405 227 379T204 326Q204 301 223 291T278 274T330 259Q396 230 396 163Q396 135 385 107T352 51T289 7T195 -10Q118 -10 86 19T53 87Q53 126 74 143T118 160Q133 160 146 151T160 120Q160 94 142 76T111 58Q109 57 108 57T107 55Q108 52 115 47T146 34T201 27Q237 27 263 38T301 66T318 97T323 122Q323 150 302 164T254 181T195 196T148 231Q131 256 131 289Z"/></g><g data-mml-node="mn" transform="translate(502,-150) scale(0.707)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"/></g></g><g data-mml-node="mo" transform="translate(1183.3,0)"><path data-c="223C" d="M55 166Q55 241 101 304T222 367Q260 367 296 349T362 304T421 252T484 208T554 189Q616 189 655 236T694 338Q694 350 698 358T708 367Q722 367 722 334Q722 260 677 197T562 134H554Q517 134 481 152T414 196T355 248T292 293T223 311Q179 311 145 286Q109 257 96 218T80 156T69 133Q55 133 55 166Z"/></g><g data-mml-node="msub" transform="translate(2239.1,0)"><g data-mml-node="mi"><path data-c="1D460" d="M131 289Q131 321 147 354T203 415T300 442Q362 442 390 415T419 355Q419 323 402 308T364 292Q351 292 340 300T328 326Q328 342 337 354T354 372T367 378Q368 378 368 379Q368 382 361 388T336 399T297 405Q249 405 227 379T204 326Q204 301 223 291T278 274T330 259Q396 230 396 163Q396 135 385 107T352 51T289 7T195 -10Q118 -10 86 19T53 87Q53 126 74 143T118 160Q133 160 146 151T160 120Q160 94 142 76T111 58Q109 57 108 57T107 55Q108 52 115 47T146 34T201 27Q237 27 263 38T301 66T318 97T323 122Q323 150 302 164T254 181T195 196T148 231Q131 256 131 289Z"/></g><g data-mml-node="TeXAtom" transform="translate(502,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"/><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" transform="translate(500,0)"/></g></g></g></g></g></svg></mjx-container>, <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.375ex;" xmlns="http://www.w3.org/2000/svg" width="6.626ex" height="1.791ex" role="img" focusable="false" viewbox="0 -626 2928.7 791.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"/></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"/></g></g><g data-mml-node="mo" transform="translate(1075.3,0)"><path data-c="223C" d="M55 166Q55 241 101 304T222 367Q260 367 296 349T362 304T421 252T484 208T554 189Q616 189 655 236T694 338Q694 350 698 358T708 367Q722 367 722 334Q722 260 677 197T562 134H554Q517 134 481 152T414 196T355 248T292 293T223 311Q179 311 145 286Q109 257 96 218T80 156T69 133Q55 133 55 166Z"/></g><g data-mml-node="msub" transform="translate(2131.1,0)"><g data-mml-node="mi"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"/></g><g data-mml-node="mn" transform="translate(394,-150) scale(0.707)"><path data-c="36" d="M42 313Q42 476 123 571T303 666Q372 666 402 630T432 550Q432 525 418 510T379 495Q356 495 341 509T326 548Q326 592 373 601Q351 623 311 626Q240 626 194 566Q147 500 147 364L148 360Q153 366 156 373Q197 433 263 433H267Q313 433 348 414Q372 400 396 374T435 317Q456 268 456 210V192Q456 169 451 149Q440 90 387 34T253 -22Q225 -22 199 -14T143 16T92 75T56 172T42 313ZM257 397Q227 397 205 380T171 335T154 278T148 216Q148 133 160 97T198 39Q222 21 251 21Q302 21 329 59Q342 77 347 104T352 209Q352 289 347 316T329 361Q302 397 257 397Z"/></g></g></g></g></svg></mjx-container>, <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.375ex;" xmlns="http://www.w3.org/2000/svg" width="2.282ex" height="1.375ex" role="img" focusable="false" viewbox="0 -442 1008.6 607.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"/></g><g data-mml-node="mn" transform="translate(605,-150) scale(0.707)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"/></g></g></g></g></svg></mjx-container></li>
 <li>Memory is byte-addressed</li>
 </ul>
-<h2 id="section-1">2</h2>
-<h3 id="risc-v-instructions">RISC-V Instructions</h3>
-<p>i = "immediate"(constant integer)</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><h3 id="RISC-V-Instructions"><a href="#RISC-V-Instructions" class="headerlink" title="RISC-V Instructions"></a>RISC-V Instructions</h3><p>  i = “immediate”(constant integer)</p>
 <ul>
 <li>-Arithmetic: <code>add, sub, addi, mult, div</code></li>
 <li>-Data Transfer: <code>lw, sw, lb, sb, lbu</code></li>
@@ -142,137 +138,127 @@ mjx-container[display="true"] + br {
 <li>-Bitwise: <code>and, or, xor, andi, ori, xori</code></li>
 <li>-Shifting: <code>sll, srl, sra, slli, srli, srai</code></li>
 </ul>
-<h3 id="sign-extension">Sign Extension</h3>
-<ul>
-<li>We want to take an 8-bit two's complement number and make it a 9-bit number</li>
+<h3 id="Sign-Extension"><a href="#Sign-Extension" class="headerlink" title="Sign Extension"></a>Sign Extension</h3><ul>
+<li>We want to take an 8-bit two’s complement number and make it a 9-bit number</li>
 </ul>
-<p>​ <code>0b0000 0010 (+2) -&gt; 0b0 0000 0010 (+2)</code></p>
-<p>​ <code>0b1111 1110 (-2) -&gt; 0b1 1111 1110 (-2)</code></p>
+<p>​        <code>0b0000 0010 (+2) -&gt; 0b0 0000 0010 (+2)</code></p>
+<p>​        <code>0b1111 1110 (-2) -&gt; 0b1 1111 1110 (-2)</code></p>
 <p>Here, we replicate the most significant bit.</p>
 <ul>
 <li>When doing math, immediate values are sign extended</li>
 </ul>
-<p>​ <code>addi t0, x0, -1 == addi t0, x0, 0xFFF</code></p>
-<p>​ <code>addi t0, x0, 0x0FF    t0 -&gt; [0x0000 00FF]</code></p>
-<p>​ <code>addi t0, x0, 0xF77   t0 -&gt; [0xFFFF FF77]</code></p>
+<p>​        <code>addi t0, x0, -1 == addi t0, x0, 0xFFF</code></p>
+<p>​        <code>addi t0, x0, 0x0FF    t0 -&gt; [0x0000 00FF]</code></p>
+<p>​        <code>addi t0, x0, 0xF77   t0 -&gt; [0xFFFF FF77]</code></p>
 <ul>
 <li>Loading Sign Extension</li>
 </ul>
 <p>For assembly, this happens when we pull data out of memory</p>
-<p>Byte in memory: <code>0b1111 1110 (-2)</code></p>
-<p>load byte -&gt; Register contents: <code>0b 1111 1111 1111 1111 1111 1111 1111 1110</code></p>
+<p>Byte in memory:    <code>0b1111 1110 (-2)</code></p>
+<p>load byte -&gt; Register contents:    <code>0b 1111 1111 1111 1111 1111 1111 1111 1110</code></p>
 <p>Normal(signed) loads sign extend the most significant bit</p>
 <p>Memory: <code>0b1000 1111</code></p>
-<p>​ Load Byte -&gt; <code>0b1111 1111 1111 1111 1111 1111 1000 1111</code></p>
+<p>​    Load Byte -&gt; <code>0b1111 1111 1111 1111 1111 1111 1000 1111</code></p>
 <p>Memory: <code>0b0000 1111</code></p>
-<p>​ Load Byte -&gt; <code>0b0000 0000 0000 0000 0000 0000 0000 1111</code></p>
+<p>​    Load Byte -&gt; <code>0b0000 0000 0000 0000 0000 0000 0000 1111</code></p>
 <p>Offset loads also sign extend:</p>
-<p>​ Memory = <code>[0x00008011]</code> (address in s0)</p>
-<p>​ Assume system is little endian</p>
-<p>​ <code>lb t0, 0(s0) -&gt; loading 0b00010001</code></p>
-<p>​ <code>0b 0000 0000 0000 0000 0000 0000 0001 0001</code></p>
-<p>​ <code>lb t0, 1(s0) -&gt; loading 0b10000000</code></p>
-<p>​ <code>0b1111 1111 1111 1111 1111 1111 1000 0000</code></p>
+<p>​    Memory = <code>[0x00008011]</code> (address in s0)</p>
+<p>​    Assume system is little endian</p>
+<p>​        <code>lb t0, 0(s0) -&gt; loading 0b00010001</code></p>
+<p>​                <code>0b 0000 0000 0000 0000 0000 0000 0001 0001</code></p>
+<p>​        <code>lb t0, 1(s0) -&gt; loading 0b10000000</code></p>
+<p>​                <code>0b1111 1111 1111 1111 1111 1111 1000 0000</code></p>
 <p>Unsigned loads do not sign extend, but rather fill with zeros:</p>
-<p>​ <code>lbu t0, 1(s0) -&gt; loading 0b10000000</code></p>
-<p>​ <code>0b0000 0000 0000 0000 0000 0000 1000 0000</code></p>
-<h1 id="c-to-risc-v-practice">C to RISC-V Practice</h1>
-<p>C code is as follows:</p>
+<p>​        <code>lbu t0, 1(s0) -&gt; loading 0b10000000</code></p>
+<p>​                <code>0b0000 0000 0000 0000 0000 0000 1000 0000</code></p>
+<h1 id="C-to-RISC-V-Practice"><a href="#C-to-RISC-V-Practice" class="headerlink" title="C to RISC-V Practice"></a>C to RISC-V Practice</h1><p>C code is as follows:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Copy string from p to q */</span></span><br><span class="line"><span class="type">char</span> *p, *q;</span><br><span class="line"><span class="keyword">while</span> ((*q++ = *p++) != <span class="string">'\0'</span>);</span><br></pre></td></tr></table></figure>
 <p>RISC-V:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#copy String p to q</span><br><span class="line">#p-&gt;s0, q-&gt;s1 (char *pointers)</span><br><span class="line">Loop: lb t0 0(s0)</span><br><span class="line">			sb t0 0(s1)</span><br><span class="line">			addi s0 s0 1</span><br><span class="line">			addi s1 s1 1</span><br><span class="line">			beq t0 x0 Exit</span><br><span class="line">			j Loop</span><br><span class="line">Exit: # N chars in p =&gt; N*6 instructions</span><br></pre></td></tr></table></figure>
-<h1 id="functions-in-assembly">Functions in Assembly</h1>
-<h2 id="six-steps-of-calling-a-function">Six Steps of Calling a Function</h2>
-<ol type="1">
+<h1 id="Functions-in-Assembly"><a href="#Functions-in-Assembly" class="headerlink" title="Functions in Assembly"></a>Functions in Assembly</h1><h2 id="Six-Steps-of-Calling-a-Function"><a href="#Six-Steps-of-Calling-a-Function" class="headerlink" title="Six Steps of Calling a Function"></a>Six Steps of Calling a Function</h2><ol>
 <li>Put arguments in a place where the function can access them</li>
 <li>Transfer control to the function</li>
 <li>The function will acquire any(local) storage resources it needs</li>
 <li>The function performs its desired task</li>
-<li>The function puts <code>return value</code> in an accessible place and "cleans up"</li>
+<li>The function puts <code>return value</code> in an accessible place and “cleans up”</li>
 <li>Control is returned to you</li>
 </ol>
-<h2 id="example">Example</h2>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> {					main:</span><br><span class="line">  a = <span class="number">3</span>;							addi a0, x0, <span class="number">3</span></span><br><span class="line">  b = a + <span class="number">1</span>;							addi a1, a0, <span class="number">1</span></span><br><span class="line">  a = add(a, b);						jal ra, add</span><br><span class="line">  ...												...</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> {					add:</span><br><span class="line">  <span class="keyword">return</span> a + b;							add a0, a0, a1</span><br><span class="line">}								jr ra</span><br></pre></td></tr></table></figure>
-<h2 id="more-registers">More Registers</h2>
-<ul>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> {					main:</span><br><span class="line">  a = <span class="number">3</span>;							addi a0, x0, <span class="number">3</span></span><br><span class="line">  b = a + <span class="number">1</span>;							addi a1, a0, <span class="number">1</span></span><br><span class="line">  a = add(a, b);						jal ra, add</span><br><span class="line">  ...												...</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> {					add:</span><br><span class="line">  <span class="keyword">return</span> a + b;							add a0, a0, a1</span><br><span class="line">}								jr ra</span><br></pre></td></tr></table></figure>
+<h2 id="More-Registers"><a href="#More-Registers" class="headerlink" title="More Registers"></a>More Registers</h2><ul>
 <li><code>a0-a7</code>: eight <em>argument</em> registers to pass parameters</li>
 <li><code>a0-a1</code>: two registers to return values</li>
-<li><code>sp</code>: "stack pointer"
-<ul>
-<li>-- Holds the current memory address of the "bottom" of the stack</li>
-</ul></li>
+<li><code>sp</code>: “stack pointer”<ul>
+<li>— Holds the current memory address of the “bottom” of the stack</li>
 </ul>
-<h2 id="how-do-we-transfer-control">How do we Transfer Control?</h2>
-<ul>
-<li>Jump(<code>j</code>)
-<ul>
+</li>
+</ul>
+<h2 id="How-do-we-Transfer-Control"><a href="#How-do-we-Transfer-Control" class="headerlink" title="How do we Transfer Control?"></a>How do we Transfer Control?</h2><ul>
+<li>Jump(<code>j</code>)<ul>
 <li><code>j label</code></li>
-</ul></li>
-<li>Jump and Link(<code>jal</code>)
-<ul>
+</ul>
+</li>
+<li>Jump and Link(<code>jal</code>)<ul>
 <li><code>jal dst label</code></li>
-</ul></li>
-<li>Jump and Link Register(<code>jalr</code>)
-<ul>
+</ul>
+</li>
+<li>Jump and Link Register(<code>jalr</code>)<ul>
 <li><code>jar dst src imm</code></li>
-</ul></li>
-<li><strong>"and Link"</strong>: Saves the location of instruction in a register before jumping</li>
-<li>Jump Register(<code>jr</code>)
-<ul>
+</ul>
+</li>
+<li><strong>“and Link”</strong>: Saves the location of instruction in a register before jumping</li>
+<li>Jump Register(<code>jr</code>)<ul>
 <li><code>jr src</code></li>
-</ul></li>
+</ul>
+</li>
 <li><strong>ra</strong> = <em>return address</em> register, used to save where a function is called from so we can get back</li>
 </ul>
-<h2 id="function-call-example">Function Call Example</h2>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">... sum(a, b); ...			<span class="comment">/* a-&gt;s0, b-&gt;s1 */</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">sum</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> {</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
-<p>​ C</p>
+<h2 id="Function-Call-Example"><a href="#Function-Call-Example" class="headerlink" title="Function Call Example"></a>Function Call Example</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">... sum(a, b); ...			<span class="comment">/* a-&gt;s0, b-&gt;s1 */</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">sum</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> {</span><br><span class="line">  <span class="keyword">return</span> x + y;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>​                                                                                                                                                        C</p>
 <hr>
-<p>​ RISC-V</p>
+<p>​                                                                                                                                                RISC-V</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1000		addi a0 s0 0		#x = a</span><br><span class="line">1004 		addi a1 s1 0		#y = b</span><br><span class="line">1008		jal ra sum		#ra = 1012, goto sum</span><br><span class="line">1012</span><br><span class="line">...</span><br><span class="line">2000		sum: add v0 a0 a1</span><br><span class="line">2004 		jr ra</span><br></pre></td></tr></table></figure>
-<h2 id="j-is-a-pseudo-instruction-explained">J is a pseudo-instruction explained</h2>
-<ul>
+<h2 id="J-is-a-pseudo-instruction-explained"><a href="#J-is-a-pseudo-instruction-explained" class="headerlink" title="J is a pseudo-instruction explained"></a>J is a pseudo-instruction explained</h2><ul>
 <li><code>jal</code> syntax: <code>jal dst label</code></li>
-<li>You supply the register used to link
-<ul>
+<li>You supply the register used to link <ul>
 <li>When calling a function you use ra</li>
-</ul></li>
-<li>What happens if you specify x0?
-<ul>
+</ul>
+</li>
+<li>What happens if you specify x0?<ul>
 <li><code>jal x0 label</code></li>
 <li><code>x0</code> always contains 0, so attempts to write to it do nothing</li>
 <li>So <code>jal x0 label</code> is just jumping without linking</li>
-</ul></li>
-<li><code>j label</code> is a pseudo-instruction for <code>jal x0 label</code>
-<ul>
-<li>Similarly <code>jr</code> is a pseudo-instruction for <code>jalr</code> following the same idea</li>
-</ul></li>
 </ul>
-<h1 id="calling-convention">Calling Convention</h1>
-<h2 id="example-sumsquare">Example: sumSquare</h2>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sumSquare</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> {</span><br><span class="line">	<span class="keyword">return</span> mult(x, x) + y;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</li>
+<li><code>j label</code> is a pseudo-instruction for <code>jal x0 label</code><ul>
+<li>Similarly <code>jr</code> is a pseudo-instruction for <code>jalr</code> following the same idea</li>
+</ul>
+</li>
+</ul>
+<h1 id="Calling-Convention"><a href="#Calling-Convention" class="headerlink" title="Calling Convention"></a>Calling Convention</h1><h2 id="Example-sumSquare"><a href="#Example-sumSquare" class="headerlink" title="Example: sumSquare"></a>Example: sumSquare</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sumSquare</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> {</span><br><span class="line">	<span class="keyword">return</span> mult(x, x) + y;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
 <ul>
-<li>What do we need to save?
-<ul>
+<li>What do we need to save?<ul>
 <li>Call to <code>mult</code> will overwrite <code>ra</code>, so save it</li>
 <li>Reusing <code>a1</code> to pass the second argument to <code>mult</code>, but need current value (<code>y</code>) later, so save <code>a1</code></li>
-</ul></li>
 </ul>
-<h2 id="calling-conventions">Calling Conventions</h2>
+</li>
+</ul>
+<h2 id="Calling-Conventions"><a href="#Calling-Conventions" class="headerlink" title="Calling Conventions"></a>Calling Conventions</h2><ul>
+<li>CalleR: the calling function</li>
+<li>CalleE: the function being called</li>
+</ul>
 <ul>
-<li><p>CalleR: the calling function</p></li>
-<li><p>CalleE: the function being called</p></li>
-<li><p>Register Conventions: A set of generally accepted rules as to which registers will be unchanged after a procedure call(<code>jal</code>) and which may have changed</p></li>
+<li>Register Conventions: A set of generally accepted rules as to which registers will be unchanged after a procedure call(<code>jal</code>) and which may have changed</li>
 </ul>
 <p>Each register is one of the two types:</p>
 <ul>
-<li>Caller saved
-<ul>
+<li>Caller saved<ul>
 <li>The callee can use them freely (if needed, the caller had to save them before invoking and will restore them afterward)</li>
-</ul></li>
-<li>Callee saved
-<ul>
+</ul>
+</li>
+<li>Callee saved<ul>
 <li>The callee function must save them before modifying them, and restore them before returning (avoid using them at all, and no need to save)</li>
-</ul></li>
+</ul>
+</li>
 </ul>
 <p><strong>Saved Registers(Callee Saved)</strong></p>
 <ul>
@@ -281,29 +267,30 @@ mjx-container[display="true"] + br {
 <li>If calleE uses them, it must restore values before returning</li>
 <li>This means save the old values, use the registers, then reload the old values back into the registers</li>
 </ul>
-<p>NOTICE: If the calleR is using the saved registers, and calleE also wants to use them. CalleE should "save" the saved registers by putting them on the stack. <strong>It's calleE'job, not calleR's job!!!!</strong></p></li>
-<li><p><code>s0-s11</code>(saved registers)</p></li>
-<li><p>sp(stack pointer)</p></li>
+<p>NOTICE: If the calleR is using the saved registers, and calleE also wants to use them. CalleE should “save” the saved registers by putting them on the stack. <strong>It’s calleE’job, not calleR’s job!!!!</strong></p>
+</li>
+<li><p><code>s0-s11</code>(saved registers)</p>
+</li>
+<li><p>sp(stack pointer)</p>
+</li>
 </ul>
 <p>The RISC-V assembly code implementing the example C code above:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sumSquare:</span><br><span class="line">#push</span><br><span class="line">				addi sp	sp	-8		#make space on stack</span><br><span class="line">				sw	ra	4(sp)			#save ra address</span><br><span class="line">				sw	a1	0(sp)			#save y</span><br><span class="line">				add a1	a0	x0		#set second mult arg</span><br><span class="line">				jal	mult					#call mult</span><br><span class="line">#pop	</span><br><span class="line">				lw	a1	0(sp)			#restore y</span><br><span class="line">				add a0	a0	a1		#ret val = mult(x, x) + y</span><br><span class="line">				lw 	ra	4(sp)			#get ret addr</span><br><span class="line">				addi sp	sp	8			#restore stack</span><br><span class="line">mult:...</span><br></pre></td></tr></table></figure>
-<h2 id="basc-structure-of-a-function">Basc Structure of a Function</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Prologue</span><br><span class="line">			func_label:</span><br><span class="line">			addi	sp,	sp,	-framesize</span><br><span class="line">			sw	ra,	&lt;framesize - 4&gt;(sp)</span><br><span class="line">			#store other callee saved registers	(by caller)</span><br><span class="line">			#save other registers if need be (by callee)</span><br><span class="line">Body			(call other functions)</span><br><span class="line">...</span><br><span class="line">Epilogue</span><br><span class="line">			#restore other registers if need be (by callee)</span><br><span class="line">			#restore other callee saved registers (by caller)</span><br><span class="line">			lw	ra,	&lt;framesize - 4&gt;(sp)</span><br><span class="line">			addi	sp,	sp,	framesize</span><br><span class="line">			jr ra</span><br></pre></td></tr></table></figure>
-<h2 id="summary">Summary</h2>
-<ul>
-<li>One more time for luck:
-<ul>
+<h2 id="Basc-Structure-of-a-Function"><a href="#Basc-Structure-of-a-Function" class="headerlink" title="Basc Structure of a Function"></a>Basc Structure of a Function</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Prologue</span><br><span class="line">			func_label:</span><br><span class="line">			addi	sp,	sp,	-framesize</span><br><span class="line">			sw	ra,	&lt;framesize - 4&gt;(sp)</span><br><span class="line">			#store other callee saved registers	(by caller)</span><br><span class="line">			#save other registers if need be (by callee)</span><br><span class="line">Body			(call other functions)</span><br><span class="line">...</span><br><span class="line">Epilogue</span><br><span class="line">			#restore other registers if need be (by callee)</span><br><span class="line">			#restore other callee saved registers (by caller)</span><br><span class="line">			lw	ra,	&lt;framesize - 4&gt;(sp)</span><br><span class="line">			addi	sp,	sp,	framesize</span><br><span class="line">			jr ra</span><br></pre></td></tr></table></figure>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><ul>
+<li>One more time for luck:<ul>
 <li>CalleR must save any <strong>volatile</strong> registers it is using onto the stack before making a procedure call</li>
 <li>CalleR can trust <strong>saved</strong> registers to maintain values</li>
-<li>CalleE must "save" any <strong>saved</strong> registers it intends to use by putting them onto the stack before overwriting their values</li>
-</ul></li>
-<li>Note:
-<ul>
-<li>CalleR and calleE only need to save the appropriate registers when they are using(not all!!!)</li>
-<li>Don't forget to restore the values later</li>
-</ul></li>
+<li>CalleE must “save” any <strong>saved</strong> registers it intends to use by putting them onto the stack before overwriting their values</li>
 </ul>
-</div></article><aside class="post-widget"><nav class="post-toc-wrap" id="post-toc"><h4>TOC</h4><ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#review-of-last-lecture"><span class="post-toc-number">1.</span> <span class="post-toc-text">Review of Last Lecture</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#section"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#section-1"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#risc-v-instructions"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">RISC-V Instructions</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sign-extension"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">Sign Extension</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#c-to-risc-v-practice"><span class="post-toc-number">2.</span> <span class="post-toc-text">C to RISC-V Practice</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#functions-in-assembly"><span class="post-toc-number">3.</span> <span class="post-toc-text">Functions in Assembly</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#six-steps-of-calling-a-function"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Six Steps of Calling a Function</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#example"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Example</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#more-registers"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">More Registers</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#how-do-we-transfer-control"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">How do we Transfer Control?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#function-call-example"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">Function Call Example</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#j-is-a-pseudo-instruction-explained"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">J is a pseudo-instruction explained</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#calling-convention"><span class="post-toc-number">4.</span> <span class="post-toc-text">Calling Convention</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#example-sumsquare"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">Example: sumSquare</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#calling-conventions"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">Calling Conventions</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#basc-structure-of-a-function"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">Basc Structure of a Function</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#summary"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">Summary</span></a></li></ol></li></ol></nav></aside></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><span class="footer-msg"><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
+</li>
+<li>Note:<ul>
+<li>CalleR and calleE only need to save the appropriate registers when they are using(not all!!!)</li>
+<li>Don’t forget to restore the values later</li>
+</ul>
+</li>
+</ul>
+</div></article><aside class="post-widget"><nav class="post-toc-wrap" id="post-toc"><h4>TOC</h4><ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Review-of-Last-Lecture"><span class="post-toc-number">1.</span> <span class="post-toc-text">Review of Last Lecture</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RISC-V-Instructions"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">RISC-V Instructions</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Sign-Extension"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">Sign Extension</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-to-RISC-V-Practice"><span class="post-toc-number">2.</span> <span class="post-toc-text">C to RISC-V Practice</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Functions-in-Assembly"><span class="post-toc-number">3.</span> <span class="post-toc-text">Functions in Assembly</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Six-Steps-of-Calling-a-Function"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Six Steps of Calling a Function</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Example"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Example</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#More-Registers"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">More Registers</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#How-do-we-Transfer-Control"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">How do we Transfer Control?</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Function-Call-Example"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">Function Call Example</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#J-is-a-pseudo-instruction-explained"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">J is a pseudo-instruction explained</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Calling-Convention"><span class="post-toc-number">4.</span> <span class="post-toc-text">Calling Convention</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Example-sumSquare"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">Example: sumSquare</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Calling-Conventions"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">Calling Conventions</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Basc-Structure-of-a-Function"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">Basc Structure of a Function</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Summary"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">Summary</span></a></li></ol></li></ol></nav></aside></div><footer class="footer-nav"><div class="footer"><div class="back-top" id="back-top" title="Back to top"><i class="icon icon-chevron-bar-up"></i></div><span class="footer-msg"><div><span id="busuanzi_container_site_pv"><span id="busuanzi_value_site_pv">?</span>
 PV
 </span><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv">?</span>
 UV</span></div>
